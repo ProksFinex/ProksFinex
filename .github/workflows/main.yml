@@ -1,15 +1,12 @@
-# GitHub Action for generating a contribution graph with a snake eating your contributions.
-
 name: Generate Snake
 
 # Controls when the action will run. This action runs every 6 hours.
-
 on:
   schedule:
-      # every 6 hours
+    # every 6 hours
     - cron: "0 */6 * * *"
 
-# This command allows us to run the Action automatically from the Actions tab.
+  # This command allows us to run the Action automatically from the Actions tab.
   workflow_dispatch:
 
 # The sequence of runs in this workflow:
@@ -21,19 +18,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-     # Reference a specific commit
-  - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
-  # Reference the major version of a release
-  - uses: actions/checkout@v4
-  # Reference a specific version
-  - uses: actions/checkout@v4.2.0
-  # Reference a branch
-  - uses: actions/checkout@main
-
-    # Checks repo under $GITHUB_WORKSHOP, so your job can access it
+      # Checks repo under $GITHUB_WORKSHOP, so your job can access it
       - uses: actions/checkout@v2
 
-    # Generates the snake  
+      # Set up Node.js 20.x
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Generates the snake  
       - uses: Platane/snk@master
         id: snake-gif
         with:
@@ -42,7 +36,7 @@ jobs:
           gif_out_path: dist/github-contribution-grid-snake.gif
           svg_out_path: dist/github-contribution-grid-snake.svg
 
-     # show the status of the build. Makes it easier for debugging (if there's any issues).
+      # Show the status of the build. Makes it easier for debugging (if there's any issues).
       - run: git status
 
       # Push the changes
